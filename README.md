@@ -1,23 +1,24 @@
-# ArUCo-Markers-Pose-Estimation-Generation-Python
+Totally forked from https://github.com/GSNCodes/ArUCo-Markers-Pose-Estimation-Generation-Python.  Check it out if you want more in depth!
 
-This repository contains all the code you need to generate an ArucoTag,
-detect ArucoTags in images and videos, and then use the detected tags
-to estimate the pose of the object. In addition to this, I have also 
-included the code required to obtain the calibration matrix for your 
-camera.
+Changes here are what we did to get it working right on Jetson Nano with some additional markers, and faster access to webcam.
 
-<img src = 'Images/pose_output_image.png' width=400 height=400>
+To use this on the nano, follow these steps:
+1. Run 'snapshot.py' to take like 15 pictures of your calibrated chessboard.  Before you start this process, make sure that the './targets' subdirectory is empty, this is where we'll save those files.
+2. Run 'calibration.py' with a commmand line that looks like: python calibration.py --dir calibration_checkerboard/ --square_size 0.024
+   -- notice that square size is in meters.  Also, this is set up for a checkerboard with width of 10 squares and height of 7, but the code will specify w as 9 and t (height) as 6 because it's only picking up inside corners on the board.  Feel free to adjust the code for your chessboard.
+3. Print your chessboard - 8.5x11 paper is fine, 11x17 is better.  Make sure the squares are square, and that the proper size is entered when running calibration.py
+4. When taking pictures, do so at a bunch of angles and orientations, but make sure the entire chessboard is visible and not blurred.
 
-## 1. ArUCo Marker Generation
-The file `generate_aruco_tags.py` contains the code for ArUCo Marker Generation.
-You need to specify the type of marker you want to generate.
+This will save two calibration numpy files, calibration_matrix and distortion_coefficients, necessary for your camera to interpret real 3D space.  They will overwrite old files.
 
-The command for running is :-  
-`python generate_aruco_tags.py --id 24 --type DICT_5X5_100 --output tags/`
+5. Once you have those files, run something like python3 ./pose_estimation.py --K_Matrix calibration_matrix.npy --D_Coeff distortion_coefficients.npy --t DICT_4x4_50
+   -- just remember to substitute the correct tag library (like 16H5) in at the end for --t
+   
+   Have fun!
 
-You can find more details on other parameters using `python generate_aruco_tags.py --help`
+-- I've left most of the old readme in place below.
 
-## 2. ArUCo Marker Detection
+ArUCo Marker Detection
 The files `detect_aruco_images.py` and `detect_aruco_video.py` contains the code for detecting
 ArUCo Markers in images and videos respectively. You need to specify the path to the image or 
 video file and the type of marker you want to detect.
