@@ -26,8 +26,32 @@ class FieldTag:
 class Field:
     def __init__(self, filePath):
         self.filePath = filePath
+        self.matMap = {}
         with open(filePath) as f:
-            self.matMap = loads(f.read())
+            lines = f.readlines()
+            tagNum = -1
+            x = None
+            y = None
+            offset = None
+            for line in lines:
+                line = line.split(":")
+
+                if len(line) == 2:
+                    self.matMap = parseLine(line, self.matMap)
 
     def adjustPose(self, pose, tagVal):
         return self.matMap[tagVal].calcAbsPose(pose)
+
+def parseLine(line, matMap):
+    if line[0] == "tagNum":
+        tagNum = int(line[1])
+    elif line[0] == "x":
+        x = int(line[1])
+    elif line[0] == "y":
+        y = int(line[1])
+    elif line[0] == "offset":
+        offset = int(offset)
+    else:
+        matMap[tagNum] = FieldTag(x, y, offset)
+    
+    return matMap
