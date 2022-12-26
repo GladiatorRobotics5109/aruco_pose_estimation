@@ -3,34 +3,34 @@ import numpy as np
 
 class FieldTag:
     def __init__(self, x, y, theta):
-        self.x = x
-        self.y = y
-        self.theta = theta
-
-    def calcAbsPose(self, other):
-
         # Clockwise rotation matrix
         rotMat = np.array([
-            [np.cos(self.theta), np.sin(self.theta), 0],
-            [-np.sin(self.theta), np.cos(self.theta), 0],
+            [np.cos(theta), np.sin(theta), 0],
+            [-np.sin(theta), np.cos(theta), 0],
             [0, 0, 1]
         ])
 
         # Translation matrix
         transMat = np.array([
-            [1, 0, self.x],
-            [0, 1, self.y],
+            [1, 0, x],
+            [0, 1, y],
             [0, 0, 1],
         ])
-        
+
+        self.calcedMat = np.matmul(rotMat, transMat)
+
+    
+    def calcAbsPose(self, other):
         # Returns projection of vector onto actual field
-        return np.matmul(rotMat, transMat).dot(other)
+        return self.calcedMat.dot(other)
 
 
 class Field:
     def __init__(self, filePath=None, tagPose=None):
         self.filePath = filePath
         self.matMap = {}
+
+        # Can use a file or hardocded dictionary
         if (filePath != None):
             self.parseFile(filePath)
         else:
@@ -67,7 +67,7 @@ def parseLine(line, matMap):
 
 
 def test():
-    tag = FieldTag(0, 2, np.pi/4)
+    tag = FieldTag(0, 2, np.pi/2)
 
     print(tag.calcAbsPose([[1], [1], [1]]))
 
