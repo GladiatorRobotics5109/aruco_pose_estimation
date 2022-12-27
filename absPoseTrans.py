@@ -3,10 +3,11 @@ import numpy as np
 import os
 
 class FieldTag:
-    def __init__(self, matId, x=None, y=None, theta=None, matPath=None):
+    def __init__(self, matId, theta, x=None, y=None, matPath=None):
         self.initialized = False
         self.matId = matId
         self.calcedMat = None
+        self.theta = theta
         if (x != None):
             # Clockwise rotation matrix
             rotMat = np.array([
@@ -27,7 +28,19 @@ class FieldTag:
             self.calcedMat = numpy.load(matPath)
 
     
-    def calcAbsPose(self, other):
+    def calcAbsPose(self, other, angOffset):
+
+        # adjust for angle offset
+        diff = angOffset - self.theta
+
+        transMat = np.array([
+            [np.cos(diff), -np.sin(diff), 0],
+            [np.sin(diff), np.cos(diff), 0],
+            [0, 0, 1]
+        ])
+
+        other = transMat.dot(other)
+
         # Returns projection of vector onto actual field
         return self.calcedMat.dot(other)
 
@@ -60,15 +73,16 @@ class Field:
 
                 if len(line) == 2:
                     self.matMap = parseLine(line, self.matMap)
-    def getAbsPose(self, poses):
+    
+    def getAbsPose(self, poses, angOffset):
         absCoord = np.array([
             [0], 
             [0], 
             [1]
         ])
-        
+
         for tagVal, pose in poses:
-            absCoord += self.matMap[tagVal].calcAbsPose(pose)
+            absCoord += self.matMap[tagVal].calcAbsPose(pose, angOffset)
 
         return absCoord/len(poses)
 
@@ -82,18 +96,18 @@ def parseLine(line, matMap):
     elif line[0] == "offset":
         offset = int(offset)
     elif line[0] == "tagMapPath":
-        matmMap[tagNum] = np.load(line[1])
+        matmMap[tagNum] = FieldTag(tagNum, offset, matPath=line[1])
     else:
-        matMap[tagNum] = FieldTag(tagNum, x, y, offset)
+        matMap[tagNum] = FieldTag(tagNum, offset, x, y)
     
     return matMap
 
 
 
 def test():
-    tag = FieldTag(1, 0, 2, np.pi/2)
+    tag = FieldTag(1, np.pi/2, 0, 2)
 
-    print(tag.calcAbsPose([[1], [1], [1]]))
+    print(tag.calcAbsPose([[1], [1], [1]], np.pi/2))
 
 if __name__ == "__main__":
     test()

@@ -89,9 +89,7 @@ if __name__ == '__main__':
         cv2.imshow('Estimated Pose', output)
         if len(tvecs) > 0:
             for tvec, singId in tvecs:
-                sd.putNumber(f"relX_{singId}", -tvec[0][0][0])
-                sd.putNumber(f"relY_{singId}", tvec[0][0][1])
-                sd.putNumber(f"relZ_{singId}", tvec[0][0][2])
+                sd.putNumberArray(f"rel_{singId}", [-tvec[0][0][0], tvec[0][0][1], tvec[0][0][2]])
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
