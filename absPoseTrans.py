@@ -60,8 +60,16 @@ class Field:
 
                 if len(line) == 2:
                     self.matMap = parseLine(line, self.matMap)
-    def getAbsPose(self, pose, tagVal):
-        return self.matMap[tagVal].calcAbsPose(pose)
+    def getAbsPose(self, poses):
+        absCoord = np.array([
+            [0], 
+            [0], 
+            [1]
+        ])
+        for tagVal, pose in poses:
+            absCoord += self.matMap[tagVal].calcAbsPose(pose)
+
+        return absCoord/len(poses)
 
 def parseLine(line, matMap):
     if line[0] == "tagNum":
