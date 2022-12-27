@@ -66,6 +66,7 @@ class Field:
             [0], 
             [1]
         ])
+        
         for tagVal, pose in poses:
             absCoord += self.matMap[tagVal].calcAbsPose(pose)
 
