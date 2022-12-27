@@ -32,10 +32,9 @@ class FieldTag:
         return self.calcedMat.dot(other)
 
     def __del__(self):
-        try: 
+        if (not os.path.exists("./tags_npy/")):
             os.mkdir("./tags_npy/")
-        finally:
-            np.save(f"./tags_npy/tag_{self.matId}.npy", self.calcedMat)
+        np.save(f"./tags_npy/tag_{self.matId}.npy", self.calcedMat)
 
 
 class Field:
