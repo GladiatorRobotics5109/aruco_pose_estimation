@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 class FieldTag:
-    def __init__(self, matId, theta, x=None, y=None, matPath=None):
+    def __init__(self, matId, theta, x=None, y=None, z=None, matPath=None):
         self.initialized = False
         self.matId = matId
         self.calcedMat = None
@@ -11,16 +11,18 @@ class FieldTag:
         if (x != None):
             # Clockwise rotation matrix
             rotMat = np.array([
-                [np.cos(theta), np.sin(theta), 0],
-                [-np.sin(theta), np.cos(theta), 0],
-                [0, 0, 1]
+                [np.cos(theta), np.sin(theta), 0, 0],
+                [-np.sin(theta), np.cos(theta), 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1]
             ])
 
             # Translation matrix
             transMat = np.array([
-                [1, 0, x],
-                [0, 1, y],
-                [0, 0, 1],
+                [1, 0, 0, x],
+                [0, 1, 0, y],
+                [0, 0, 1, z],
+                [0, 0, 0, 1]
             ])
 
             self.calcedMat = np.matmul(rotMat, transMat)
@@ -34,9 +36,10 @@ class FieldTag:
         diff = angOffset - self.theta
 
         transMat = np.array([
-            [np.cos(diff), -np.sin(diff), 0],
-            [np.sin(diff), np.cos(diff), 0],
-            [0, 0, 1]
+            [np.cos(diff), -np.sin(diff), 0, 0],
+            [np.sin(diff), np.cos(diff), 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
         ])
 
         other = transMat.dot(other)
@@ -67,6 +70,7 @@ class Field:
             tagNum = -1
             x = None
             y = None
+            z = None
             offset = None
             for line in lines:
                 line = line.split(":")
@@ -95,19 +99,21 @@ def parseLine(line, matMap):
         y = int(line[1])
     elif line[0] == "offset":
         offset = int(offset)
+    elif line[0] == "z":
+        z = int(line[1])
     elif line[0] == "tagMapPath":
         matmMap[tagNum] = FieldTag(tagNum, offset, matPath=line[1])
     else:
-        matMap[tagNum] = FieldTag(tagNum, offset, x, y)
+        matMap[tagNum] = FieldTag(tagNum, offset, x, y, z)
     
     return matMap
 
 
 
 def test():
-    tag = FieldTag(1, np.pi/2, 0, 2)
+    tag = FieldTag(1, np.pi/2, 0, 2, 2)
 
-    print(tag.calcAbsPose([[1], [1], [1]], np.pi/2))
+    print(tag.calcAbsPose([[1], [1], [-1], [1]], np.pi/2))
 
 if __name__ == "__main__":
     test()
