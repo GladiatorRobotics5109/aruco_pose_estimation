@@ -8,7 +8,7 @@ class RelPoseTrans:
     def transRelPose(self, pose):
         dist = pose[1]
         pose[1] = dist * np.cos(self.phi)
-        pose[2] = dist * np.sin(self.phi) + pose[2]
+        pose[2] = (dist**2 - pose[1]**2)**(0.5) + pose[2]
 
         return pose
 
