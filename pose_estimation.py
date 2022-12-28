@@ -12,6 +12,8 @@ import argparse
 import time
 from networktables import NetworkTables
 
+ip = "10.51.9.2"
+
 
 def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coefficients):
 
@@ -50,14 +52,14 @@ def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
     return frame, tvecs
 
 if __name__ == '__main__':
-    NetworkTables.initialize()
+    NetworkTables.initialize(server=ip)
     sd = NetworkTables.getTable("SmartDashboard")
     ap = argparse.ArgumentParser()
     ap.add_argument("-k", "--K_Matrix", required=True, help="Path to calibration matrix (numpy file)")
     ap.add_argument("-d", "--D_Coeff", required=True, help="Path to distortion coefficients (numpy file)")
     ap.add_argument("-t", "--type", type=str, default="DICT_ARUCO_ORIGINAL", help="Type of ArUCo tag to detect")
     args = vars(ap.parse_args())
-    args["type"] = args["type"].upper()
+    # args["type"] = args["type"].upper()
     if ARUCO_DICT.get(args["type"], None) is None:
         print(f"ArUCo tag type '{args['type']}' is not supported")
         sys.exit(0)
