@@ -12,7 +12,12 @@ import argparse
 import time
 from networktables import NetworkTables
 
+sys.path.append("./absPose")
+
+from relPoseTrans import RelPoseTrans
+
 ip = "10.51.9.2"
+theta = np.pi / 6
 
 
 def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coefficients):
@@ -74,6 +79,8 @@ if __name__ == '__main__':
     video = cv2.VideoCapture("/dev/video0")
     time.sleep(2.0)
 
+    adj = RelPoseTrans(theta)
+
     while True:
         ret, frame = video.read()
 
@@ -91,7 +98,7 @@ if __name__ == '__main__':
         cv2.imshow('Estimated Pose', output)
         if len(tvecs) > 0:
             for tvec, singId in tvecs:
-                sd.putNumberArray(f"rel_{singId}", [-tvec[0][0][0], tvec[0][0][1], tvec[0][0][2]])
+                sd.putNumberArray(f"rel_{singId}", adj.transRelPose([-tvec[0][0][0], tvec[0][0][1], -tvec[0][0][2]]))
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
