@@ -32,6 +32,7 @@ class Field:
         absCoord = np.array([
             [0], 
             [0], 
+            [0]
             [1]
         ])
 
