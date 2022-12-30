@@ -20,7 +20,7 @@ from field import Field
 ip = "10.51.9.2"
 theta = np.pi / 6
 
-field = Field(tagPose=={})
+field = Field(tagPose={})
 
 
 def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coefficients):
