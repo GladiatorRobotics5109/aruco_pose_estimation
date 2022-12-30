@@ -43,8 +43,8 @@ def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
         cameraMatrix=matrix_coefficients,
         distCoeff=distortion_coefficients)
 
-        # If markers are detected
     tvecs = []
+    # If markers are detected
     if len(corners) > 0:
         for i in range(0, len(ids)):
             # Estimate pose of each marker and return the values rvec and tvec---(different from those of camera coefficients)
