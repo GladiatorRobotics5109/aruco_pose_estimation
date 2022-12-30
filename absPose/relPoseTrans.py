@@ -15,7 +15,7 @@ class RelPoseTrans:
 
 def test():
     adj = RelPoseTrans(np.pi/6)
-    print(adj.transRelPose([0, 1, 1]))
+    print(adj.transRelPose([0, 1, 1, 1]))
 
 if __name__ == "__main__":
     test()
