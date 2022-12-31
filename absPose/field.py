@@ -32,12 +32,15 @@ class Field:
         absCoord = np.array([
             [0], 
             [0], 
-            [0]
+            [0],
             [1]
         ])
 
         for tagVal, pose in poses:
-            absCoord += self.matMap[tagVal].calcAbsPose(pose, angOffset)
+            try:
+                absCoord += self.matMap[tagVal].calcAbsPose(pose, angOffset)
+            except:
+                print("Tag not in dict")
 
         return absCoord/len(poses)
 
