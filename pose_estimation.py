@@ -18,7 +18,7 @@ from relPoseTrans import RelPoseTrans
 from field import Field
 
 ip = "10.51.9.2"
-theta = np.pi / 6
+phi = np.pi / 6
 
 field = Field(tagPose={})
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     video = cv2.VideoCapture("/dev/video0")
     time.sleep(2.0)
 
-    adj = RelPoseTrans(theta)
+    adj = RelPoseTrans(phi)
 
     while True:
         ret, frame = video.read()
