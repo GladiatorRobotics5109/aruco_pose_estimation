@@ -101,8 +101,8 @@ if __name__ == '__main__':
         cv2.imshow('Estimated Pose', output)
         if len(tvecs) > 0:
             poseMap = [(singId, adj.transRelPose([-tvec[0][0][0], tvec[0][0][1], tvec[0][0][2], 1])) for tvec, singId in tvecs]
-            angle = sd.getNumber("angle", 0)
-            sd.putNumberArray("pose", field.getAbsPose(poseMap, angle))
+            theta = sd.getNumber("angle", 0)
+            sd.putNumberArray("pose", field.getAbsPose(poseMap, theta))
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
