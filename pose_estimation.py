@@ -11,6 +11,7 @@ from utils import ARUCO_DICT
 import argparse
 import time
 from networktables import NetworkTables
+from posePossibilities import poses
 
 sys.path.append("./absPose")
 
@@ -20,7 +21,7 @@ from field import Field
 ip = "10.51.9.2"
 phi = np.pi / 6
 
-field = Field(tagPose={})
+field = Field(poses["red"])
 
 
 def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coefficients):
