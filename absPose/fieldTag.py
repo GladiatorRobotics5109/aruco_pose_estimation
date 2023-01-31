@@ -43,9 +43,11 @@ class FieldTag:
         ])
 
         other = transMat.dot(other)
-
+        other = np.transpose(other)
         # Returns projection of vector onto actual field
-        return self.calcedMat.dot(other)
+        final = self.calcedMat.dot(other)
+        print(final)
+        return final
 
     def __del__(self):
         if (not os.path.exists("./tags_npy/")):

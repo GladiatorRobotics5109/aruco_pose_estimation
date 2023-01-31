@@ -30,19 +30,23 @@ class Field:
     
     def getAbsPose(self, poses, angOffset):
         absCoord = np.array([
-            [0], 
-            [0], 
-            [0],
-            [1]
+            0.0,
+            0.0,
+            0.0,
+            1.0
         ])
 
         for tagVal, pose in poses:
             try:
+                print(np.shape(self.matMap[tagVal].calcAbsPose(pose, angOffset)))
+                print(np.shape(absCoord))
                 absCoord += self.matMap[tagVal].calcAbsPose(pose, angOffset)
-            except:
+            except Exception as e:
+                print(e)
                 print("Tag not in dict")
 
         return absCoord/len(poses)
+
 
 def parseLine(line, matMap):
     if line[0] == "tagNum":

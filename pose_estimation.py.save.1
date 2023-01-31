@@ -29,7 +29,7 @@ def pose_esitmation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
     '''
     frame - Frame from the video stream
 Tag not in dict
-[ 7.06213432 -0.92753656  0.77495676  1.        ]
+Tag not in dict
     matrix_coefficients - Intrinsic matrix of the calibrated camera
     distortion_coefficients - Distortion coefficients associated with your camera
 
@@ -63,6 +63,8 @@ Tag not in dict
     return frame, tvecs
 
 if __name__ == '__main__':
+Tag not in dict
+Tag not in dict
     NetworkTables.initialize(server=ip)
     sd = NetworkTables.getTable("SmartDashboard")
     ap = argparse.ArgumentParser()
@@ -103,7 +105,8 @@ if __name__ == '__main__':
 	
         cv2.imshow('Estimated Pose', output)
         if len(tvecs) > 0:
-            poseMap = [(singId[0], adj.transRelPose([-tvec[0][0][0], tvec[0][0][2], -tvec[0][0][1], 1])) for tvec, singId in tvecs]
+            poseMap = [(
+singId, adj.transRelPose([-tvec[0][0][0], tvec[0][0][2], -tvec[0][0][1], 1])) for tvec, singId in tvecs]
             theta = sd.getNumber("angle", 0)
             sd.putNumberArray("pose", field.getAbsPose(poseMap, theta))
         key = cv2.waitKey(1) & 0xFF
