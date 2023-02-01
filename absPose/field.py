@@ -39,12 +39,11 @@ class Field:
         for tagVal, pose in poses:
             try:
                 print(np.shape(self.matMap[tagVal].calcAbsPose(pose, angOffset)))
-                print(np.shape(absCoord))
                 absCoord += self.matMap[tagVal].calcAbsPose(pose, angOffset)
             except Exception as e:
                 print(e)
                 print("Tag not in dict")
-
+        print(absCoord/len(poses))
         return absCoord/len(poses)
 
 

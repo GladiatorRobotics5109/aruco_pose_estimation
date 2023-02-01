@@ -1,6 +1,6 @@
 import cv2
 
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture("/dev/video0")
 width=1000
 counter = 0
 
@@ -16,7 +16,7 @@ while (True):
         frame = cv2.resize(frame, (width, height), interpolation=cv2.INTER_CUBIC)
 
         if ord("c") == key:
-            cv2.imwrite(f"./targets/img{counter}.jpeg", frame)
+            cv2.imwrite(f"./targets/img{counter}.jpg", frame)
             counter += 1
         elif ord("q") == key:
             break
