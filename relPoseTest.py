@@ -53,6 +53,8 @@ Tag not in dict
             rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(corners[i], 0.1524, matrix_coefficients,
                                                                        distortion_coefficients)
             tvecs.append([[tvec[0][0][0], tvec[0][0][2], tvec[0][0][1]], ids[i]])
+            if ids[i] == 2:
+                print(tvec)
             # Draw a square around the markers
             cv2.aruco.drawDetectedMarkers(frame, corners) 
 

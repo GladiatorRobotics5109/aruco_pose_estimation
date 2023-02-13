@@ -46,7 +46,6 @@ class FieldTag:
         other = np.transpose(other)
         # Returns projection of vector onto actual field
         final = self.calcedMat.dot(other)
-        print(final)
         return final
 
     def __del__(self):
