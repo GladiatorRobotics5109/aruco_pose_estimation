@@ -20,7 +20,7 @@ from relPoseTrans import RelPoseTrans
 from field import Field
 
 ip = "10.51.9.2"
-phi = 0
+phi = np.pi / 6
 
 field = Field(tagPose=poses)
 
@@ -86,11 +86,8 @@ if __name__ == '__main__':
     time.sleep(2.0)
 
     adj = RelPoseTrans(phi)
-    #frames = 0
-    #startTime = time.perf_counter()
-    #elapsedTime = 0
+
     while True:
-        #frames += 1
         ret, frame = video.read()
         undistortedFrame = cv2.undistort(frame, k, d)
 
@@ -104,9 +101,9 @@ if __name__ == '__main__':
         frame = cv2.resize(frame, (width, height), interpolation=cv2.INTER_CUBIC)
         
         output, tvecs = pose_esitmation(frame, aruco_dict_type, k, d)
-       
-        
-        absPose = [0, 0, 0]
+        cv2.imshow('Estimated Pose', output)
+        cv2.imshow('maskCube', recognition.detectCube(undistortedFrame))
+	cv2.imshow('maskCone', recognition.detectCone(undistortedFrame))
         if len(tvecs) > 0:
             poseMap = [(singId[0], adj.transRelPose([-tvec[1], tvec[0], -tvec[1], 1])) for tvec, singId in tvecs]
             theta = sd.getNumber("angle", 0)
@@ -117,16 +114,9 @@ if __name__ == '__main__':
             absPose[1] = absPose[0] - absPose[1]
             absPose[0] = absPose[0] - absPose[1]
             sd.putNumberArray("pose", absPose)
-        #cv2.imshow('maskCube', recognition.detectCube(undistortedFrame, absPose))
-        #cv2.imshow('maskCone', recognition.detectCone(undistortedFrame, absPose))
         key = cv2.waitKey(1) & 0xFF
-        '''elapsedTime = time.perf_counter() - startTime
-        if (elapsedTime >= 1):
-            startTime = time.perf_counter()
-            print(f'framerate: {frames}        ', end='\r')
-            frames = 0'''
         if key == ord('q'):
             break
-       
+
     video.release()
     cv2.destroyAllWindows()
