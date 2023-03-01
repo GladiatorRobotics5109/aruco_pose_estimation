@@ -5,7 +5,7 @@ from interp import interpCone
 from interp import interpCube
 
 height = 750
-width = 1000
+width = 100
 
 def transposeCenter(x, y):
 	return (x - width//2, -y + height//2)

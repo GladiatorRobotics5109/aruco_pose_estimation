@@ -86,11 +86,13 @@ if __name__ == '__main__':
     time.sleep(2.0)
 
     adj = RelPoseTrans(phi)
-    #frames = 0
-    #startTime = time.perf_counter()
-    #elapsedTime = 0
+    frames = 0
+    startTime = time.perf_counter()
+    elapsedTime = 0
+    coneFrame = 0
+    cubeFrame = 0
     while True:
-        #frames += 1
+        frames += 1
         ret, frame = video.read()
         undistortedFrame = cv2.undistort(frame, k, d)
 
@@ -117,14 +119,20 @@ if __name__ == '__main__':
             absPose[1] = absPose[0] - absPose[1]
             absPose[0] = absPose[0] - absPose[1]
             sd.putNumberArray("pose", absPose)
-        #cv2.imshow('maskCube', recognition.detectCube(undistortedFrame, absPose))
-        #cv2.imshow('maskCone', recognition.detectCone(undistortedFrame, absPose))
+        if (cubeFrame == 5):
+            cv2.imshow('maskCube', recognition.detectCube(undistortedFrame, absPose))
+            cubeFrame = 0
+        if (coneFrame == 5):
+            cv2.imshow('maskCone', recognition.detectCone(undistortedFrame, absPose))
+            coneFrame = 0
+        coneFrame += 1
+        cubeFrame += 1
         key = cv2.waitKey(1) & 0xFF
-        '''elapsedTime = time.perf_counter() - startTime
+        elapsedTime = time.perf_counter() - startTime
         if (elapsedTime >= 1):
             startTime = time.perf_counter()
             print(f'framerate: {frames}        ', end='\r')
-            frames = 0'''
+            frames = 0
         if key == ord('q'):
             break
        
