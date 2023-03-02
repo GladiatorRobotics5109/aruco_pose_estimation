@@ -64,7 +64,7 @@ def detectCone(src, aprilPos):
 		#print(f'largestArea: {largestArea}')
 		#print(f'distance: {interpCone(largestArea)} at: {largestArea} angle ({angleX}, {angleY})                ', end='\r')
 		#print(f'angle: ({angleX}, {angleZ})')
-		#print(f'position: {pos}')
+		print(f'Cone Position: {pos}')
 	'''
 	105000 - 0.5m
 	50000 - 0.75m
@@ -137,7 +137,7 @@ def detectCube(src, aprilPos):
 		#print(f'distance: {distance}')
 		#print(f'distance: {interpCube(largestArea)} at: {largestArea} angle ({angleX}, {angleY})                ', end='\r')
 		#print(f'angle: ({angleX}, {angleZ})')
-		#print(f'position: {pos}')
+		print(f'Cube Position: {pos}')
 	'''
 	60000 - .5m
 	34900 - .75m0287106 -0.02248793]
