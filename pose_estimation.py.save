@@ -1,4 +1,4 @@
-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'''
+'''
 Sample Usage:-
 python pose_estimation.py --K_Matrix calibration_matrix.npy --D_Coeff distortion_coefficients.npy --type DICT_5X5_100
 '''
