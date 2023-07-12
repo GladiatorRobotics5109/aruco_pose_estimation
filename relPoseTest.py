@@ -91,7 +91,7 @@ if __name__ == '__main__':
     while True:
         ret, frame = video.read()
 
-       	if not ret:
+        if not ret:
             break
 
         h, w, _ = frame.shape

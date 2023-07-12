@@ -96,7 +96,7 @@ if __name__ == '__main__':
         ret, frame = video.read()
         undistortedFrame = cv2.undistort(frame, k, d)
 
-       	if not ret:
+        if not ret:
             break
 
         h, w, _ = frame.shape
