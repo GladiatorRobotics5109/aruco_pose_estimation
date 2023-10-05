@@ -20,3 +20,12 @@ def interpCube(evalTarget):
         dist = numpy.interp(evalTarget, xValCube, yVal)
         return dist
 
+'''
+regression results 
+y1 ~ (ba^x + c) / (x1 - d)
+
+b = -28467.8
+a = 0.99998
+c = 40343.8
+d = -1256.07
+'''

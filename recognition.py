@@ -129,7 +129,7 @@ def detectCube(src, aprilPos):
 		yPos = np.sin(radX) * distance * np.sin(radZ) #l/r
 		xPos = np.cos(radX) * distance #depth
 		zPos = np.sin(radX) * distance * np.cos(radZ) #height
-	
+  
 		pos = np.array([xPos, yPos, zPos])
 		relativePos = pos - np.array([aprilPos[0], aprilPos[1], aprilPos[2]]) # relative pos from apriltag to cube
 		#print(f'relativePos: {relativePos}')
